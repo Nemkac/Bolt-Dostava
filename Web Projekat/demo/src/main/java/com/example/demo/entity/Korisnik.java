@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,38 +21,25 @@ public class Korisnik implements Serializable {
     @Column(name = "prezime")
     private String prezime;
 
-    public enum Pol{MUSKO, ZENSKO, DRUGO}
     @Enumerated(EnumType.ORDINAL)
     @Column
     private Pol pol;
 
-    public enum Uloga{ADMIN, MENADZER, DOSTAVLJAC, KUPAC}
     @Enumerated(EnumType.ORDINAL)
     @Column
     private Uloga uloga;
 
     @Column
-    private Date datumRodjenja;
+    private LocalDate datumRodjenja;
 
     public Korisnik(){}
 
-    public Korisnik(Korisnik k){
-        korisnickoIme = k.korisnickoIme;
-        lozinka = k.lozinka;
-        ime = k.ime;
-        prezime = k.prezime;
-        pol = k.pol;
-        uloga = k.uloga;
-        datumRodjenja = k.datumRodjenja;
-    }
-
-    public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Uloga uloga, Date datumRodjenja) {
+    public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja) {
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.ime = ime;
         this.prezime = prezime;
         this.pol = pol;
-        this.uloga = uloga;
         this.datumRodjenja = datumRodjenja;
     }
 
@@ -111,11 +99,11 @@ public class Korisnik implements Serializable {
         this.uloga = uloga;
     }
 
-    public Date getDatumRodjenja() {
+    public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 
-    public void setDatumRodjenja(Date datumRodjenja) {
+    public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
     }
 

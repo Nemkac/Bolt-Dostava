@@ -2,8 +2,6 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class TipKupca implements Serializable {
@@ -11,10 +9,8 @@ public class TipKupca implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public enum Ime{ZLATNI, SREBRNI, BRONZANI}
-    @Enumerated(EnumType.ORDINAL)
     @Column
-    private Ime ime;
+    private String ime;
     @Column
     private int popust;
     @Column
@@ -22,8 +18,7 @@ public class TipKupca implements Serializable {
 
     public TipKupca(){}
 
-    public TipKupca(Ime ime, int popust, int trazeniBrBodova) {
-        super();
+    public TipKupca(String ime, int popust, int trazeniBrBodova) {
         this.ime = ime;
         this.popust = popust;
         this.trazeniBrBodova = trazeniBrBodova;
@@ -37,11 +32,11 @@ public class TipKupca implements Serializable {
         this.id = id;
     }
 
-    public Ime getIme() {
+    public String getIme() {
         return ime;
     }
 
-    public void setIme(Ime ime) {
+    public void setIme(String ime) {
         this.ime = ime;
     }
 

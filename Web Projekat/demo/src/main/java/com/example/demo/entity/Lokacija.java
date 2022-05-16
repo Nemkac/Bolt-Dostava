@@ -10,15 +10,15 @@ public class Lokacija implements Serializable {
     private Long id;
 
     @Column
-    private double geoDuzina;
+    private long geoDuzina;
     @Column
-    private double geoSirina;
+    private long geoSirina;
     @Column
     private String adresa;
 
     public Lokacija(){}
 
-    public Lokacija(double geoDuzina, double geoSirina, String adresa) {
+    public Lokacija(long geoDuzina, long geoSirina, String adresa) {
         this.geoDuzina = geoDuzina;
         this.geoSirina = geoSirina;
         this.adresa = adresa;
@@ -32,19 +32,19 @@ public class Lokacija implements Serializable {
         this.id = id;
     }
 
-    public double getGeoDuzina() {
+    public long getGeoDuzina() {
         return geoDuzina;
     }
 
-    public void setGeoDuzina(double geoDuzina) {
+    public void setGeoDuzina(long geoDuzina) {
         this.geoDuzina = geoDuzina;
     }
 
-    public double getGeoSirina() {
+    public long getGeoSirina() {
         return geoSirina;
     }
 
-    public void setGeoSirina(double geoSirina) {
+    public void setGeoSirina(long geoSirina) {
         this.geoSirina = geoSirina;
     }
 

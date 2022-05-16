@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -14,26 +15,26 @@ public class Kupac extends Korisnik implements Serializable {
     private Long id;
 
     //Jedan kupac moze da ima vise porudzbina
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Porudzbina> svePorudzbine = new HashSet<>();
 
     @Column
     private int brBodova;
 
     //Jedan kupac moze biti u trenutku samo jedan tip(zlatni/srebrni/bronzani)
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private TipKupca tip;
 
-    public Kupac(){}
-
-    public Kupac(Korisnik k, int brBodova){
-        super(k);
-        this.brBodova = brBodova;
+    public Kupac(){
+        super();
+        super.setUloga(Uloga.KUPAC);
     }
 
-    public Kupac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Korisnik.Uloga uloga, Date datumRodjenja, int brBodova) {
-        super(korisnickoIme, lozinka, ime, prezime, pol, uloga, datumRodjenja);
+    public Kupac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja, int brBodova, TipKupca tip) {
+        super(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
         this.brBodova = brBodova;
+        this.tip = tip;
+        super.setUloga(Uloga.KUPAC);
     }
 
     public Long getId() {

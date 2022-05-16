@@ -17,18 +17,22 @@ public class Restoran implements Serializable {
     @Column
     private String tip;
 
+    @Column
     @OneToMany
+    @JoinColumn(name = "restoran")
     private Set<Artikal> artikliUPonudi = new HashSet<>();
 
     //Jedan restoran moze biti postojati na vise lokacija
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne
     private Lokacija lokacija;
 
     public Restoran(){}
 
-    public Restoran(String naziv, String tip) {
+    public Restoran(String naziv, String tip, Set<Artikal> artikliUPonudi, Lokacija lokacija) {
         this.naziv = naziv;
         this.tip = tip;
+        this.artikliUPonudi = artikliUPonudi;
+        this.lokacija = lokacija;
     }
 
     public Long getId() {

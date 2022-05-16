@@ -10,11 +10,12 @@ public class Komentar implements Serializable {
     private Long id;
 
     //Vise komentara moze biti ostavljeno od strane jednog kupca
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Kupac kupac;
 
     //Vise komentara moze biti ostavljeno ispod jednog restorana
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "restoran_id")
     private Restoran restoran;
     @Column
     private String tekstKomentara;
@@ -23,11 +24,11 @@ public class Komentar implements Serializable {
 
     public Komentar(){}
 
-    public Komentar(Long id, Kupac kupac, Restoran restoran, int ocena) {
-        this.id = id;
+    public Komentar(Kupac kupac, Restoran restoran, int ocena, String tekstKomentara) {
         this.kupac = kupac;
         this.restoran = restoran;
         this.ocena = ocena;
+        this.tekstKomentara = tekstKomentara;
     }
 
     public Long getId() {

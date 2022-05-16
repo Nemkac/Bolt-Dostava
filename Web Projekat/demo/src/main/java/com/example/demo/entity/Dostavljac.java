@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -17,15 +18,19 @@ public class Dostavljac extends Korisnik implements Serializable {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Porudzbina> porudzbine = new HashSet<>();
 
-    public Dostavljac(){}
-
-    public Dostavljac(Long id) {
-        this.id = id;
+    public Dostavljac(){
+        super();
+        super.setUloga(Uloga.DOSTAVLJAC);
     }
 
-    public Dostavljac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Korisnik.Uloga uloga, Date datumRodjenja, Set<Porudzbina> porudzbine) {
-        super(korisnickoIme, lozinka, ime, prezime, pol, uloga, datumRodjenja);
-        this.porudzbine = porudzbine;
+    public Dostavljac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja) {
+        super(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
+        super.setUloga(Uloga.DOSTAVLJAC);
+    }
+
+
+    public Set<Porudzbina> getPorudzbine(){
+        return porudzbine;
     }
 
     @Override

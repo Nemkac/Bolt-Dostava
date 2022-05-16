@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 public class Menadzer extends Korisnik implements Serializable {
@@ -12,11 +13,15 @@ public class Menadzer extends Korisnik implements Serializable {
     @OneToOne
     private Restoran restoran;
 
-    public Menadzer(){}
+    public Menadzer(){
+        super();
+        super.setUloga(Uloga.MENADZER);
+    }
 
-    public Menadzer(Long id, Restoran restoran) {
-        this.id = id;
+    public Menadzer(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja, Restoran restoran) {
+        super(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
         this.restoran = restoran;
+        super.setUloga(Uloga.MENADZER);
     }
 
     public Long getId() {
