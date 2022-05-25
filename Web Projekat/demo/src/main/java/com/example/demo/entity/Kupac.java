@@ -30,7 +30,7 @@ public class Kupac extends Korisnik implements Serializable {
         super.setUloga(Uloga.KUPAC);
     }
 
-    public Kupac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja, int brBodova, TipKupca tip) {
+    public Kupac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datumRodjenja, int brBodova, TipKupca tip) {
         super(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
         this.brBodova = brBodova;
         this.tip = tip;
@@ -59,6 +59,10 @@ public class Kupac extends Korisnik implements Serializable {
 
     public void setTip(TipKupca tip) {
         this.tip = tip;
+    }
+
+    public Set<Porudzbina> getPorudzbine() {
+        return svePorudzbine;
     }
 
     @Override

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Configuration
 public class DatabaseConfiguration {
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Autowired
     private ArtikalRepository artikalRepository;
@@ -33,6 +35,9 @@ public class DatabaseConfiguration {
 
     @Autowired
     private KomentarRepository komentarRepository;
+
+    @Autowired
+    private KorisnikRepository korisnikRepository;
 
     @Bean
     public boolean instantiate(){
@@ -63,32 +68,43 @@ public class DatabaseConfiguration {
         jelovnikCiao.add(artikal4);
         jelovnikCiao.add(pice);
 
-        Restoran restoran = new Restoran("Picerija 'Ciao'", "Italijanski", jelovnikCiao, lokacija);
+        Restoran restoran = new Restoran("Picerija 'Ciao'", "Italijanski", lokacija);
         restoran.getArtikliUPonudi().add(artikal);
         restoran.getArtikliUPonudi().add(artikal1);
         restoran.getArtikliUPonudi().add(artikal2);
         restoran.getArtikliUPonudi().add(artikal3);
         restoran.getArtikliUPonudi().add(artikal4);
         restoran.getArtikliUPonudi().add(pice);
-        restoranRepository.save(restoran);
 
         restoran.setArtikliUPonudi(jelovnikCiao);
 
-        Dostavljac dostavljac1 = new Dostavljac("Cveja", "cveja123", "Nikola", "Cvejic", Pol.MUSKO, LocalDate.of(2001, 05, 03));
-        Dostavljac dostavljac2 = new Dostavljac("Sunjalica", "nikola123", "Nikola", "Radovic", Pol.MUSKO, LocalDate.of(2001, 04, 20));
+        restoranRepository.save(restoran);
+
+        Dostavljac dostavljac1 = new Dostavljac("Cveja", "cveja123", "Nikola", "Cvejic", Pol.MUSKO, new Date(2001, 3, 20));
+        Dostavljac dostavljac2 = new Dostavljac("Sunjalica", "nikola123", "Nikola", "Radovic", Pol.MUSKO, new Date(2001, 5, 12));
         dostavljacRepository.save(dostavljac1);
         dostavljacRepository.save(dostavljac2);
 
-        Kupac kupac1 = new Kupac("dooka", "dooka1", "Teodora", "Zunic", Pol.ZENSKO, LocalDate.of(2002, 01, 04), 50, tip1);
+        Kupac kupac1 = new Kupac("dooka", "dooka1", "Teodora", "Zunic", Pol.ZENSKO, new Date(2002, 01, 04), 50, tip1);
         kupacRepository.save(kupac1);
-        Kupac kupac2 = new Kupac("tadiic", "tadiic1", "Ana", "Tadic", Pol.ZENSKO, LocalDate.of(2001, 05, 24), 20, tip2);
+        Kupac kupac2 = new Kupac("tadiic", "tadiic1", "Ana", "Tadic", Pol.ZENSKO, new Date (2001, 05, 24), 20, tip2);
         kupacRepository.save(kupac2);
 
         Komentar komentar1 = new Komentar(kupac1, restoran, 10, "Odlican restora, najbolja pica u gradu! Sve preporuke <3");
         komentarRepository.save(komentar1);
 
-        Menadzer menadzer1 = new Menadzer("cuka", "cuka123", "Nikola", "Kojic", Pol.MUSKO, LocalDate.of(2001, 05, 03),restoran);
+        Menadzer menadzer1 = new Menadzer("cuka", "cuka123", "Nikola", "Kojic", Pol.MUSKO, new Date(2001, 12, 1));
+        menadzer1.setRestoran(restoran);
         menadzerRepository.save(menadzer1);
+
+        Admin adminNemanja = new Admin("nemkac", "nemkac123", "Nemanja", "Todorovic", Pol.MUSKO,new Date(2002, 1,18));
+        Admin adminVladimir = new Admin("blanusha", "blanusha123", "Vladimir", "Blanusa", Pol.MUSKO,new Date(2002, 1,28));
+
+        adminRepository.save(adminNemanja);
+        adminRepository.save(adminVladimir);
+
+        Korisnik k1 = new Korisnik("nemanjica", "nemanjica12", "Nemanja", "Ranitovic", Pol.MUSKO, new Date(2001, 8, 13));
+        korisnikRepository.save(k1);
 
         return true;
     }

@@ -14,14 +14,14 @@ public class Korisnik implements Serializable {
     //Columns:
     @Column(name = "korisnickoIme", unique = true)
     private String korisnickoIme;
-    @Column(name = "lozinka")
+    @Column
     private String lozinka;
-    @Column(name = "ime")
+    @Column
     private String ime;
-    @Column(name = "prezime")
+    @Column
     private String prezime;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column
     private Pol pol;
 
@@ -30,17 +30,17 @@ public class Korisnik implements Serializable {
     private Uloga uloga;
 
     @Column
-    private LocalDate datumRodjenja;
+    private Date datum;
 
     public Korisnik(){}
 
-    public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja) {
+    public Korisnik(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datum) {
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.ime = ime;
         this.prezime = prezime;
         this.pol = pol;
-        this.datumRodjenja = datumRodjenja;
+        this.datum= datum;
     }
 
     public Long getId() {
@@ -99,12 +99,12 @@ public class Korisnik implements Serializable {
         this.uloga = uloga;
     }
 
-    public LocalDate getDatumRodjenja() {
-        return datumRodjenja;
+    public Date getDatum() {
+        return datum;
     }
 
-    public void setDatumRodjenja(LocalDate datumRodjenja) {
-        this.datumRodjenja = datumRodjenja;
+    public void setDatum(Date datum) {
+        this.datum = datum;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class Korisnik implements Serializable {
                 ", prezime='" + prezime + '\'' +
                 ", pol='" + pol + '\'' +
                 ", uloga=" + uloga +
-                ", datumRodjenja=" + datumRodjenja +
+                ", datumRodjenja=" + datum +
                 '}';
     }
 }

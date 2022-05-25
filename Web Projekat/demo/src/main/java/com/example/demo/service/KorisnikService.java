@@ -1,54 +1,42 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Korisnik;
-import com.example.demo.repository.KorisnikRepository;
+import com.example.demo.entity.Pol;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class KorisnikService {
-
     @Autowired
     private KorisnikRepository korisnikRepository;
 
-    public Korisnik login(String korisnickoIme, String password){
-        Korisnik korisnik = korisnikRepository.getByKorisnickoIme(korisnickoIme);
+    public Korisnik registracija(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datum){
+        Korisnik noviKorisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datum);
+        korisnikRepository.save(noviKorisnik);
 
-        if(korisnik == null || !korisnik.getLozinka().equals(password)){
+        return noviKorisnik;
+    }
+
+    public Korisnik login(String korisnickoIme, String lozinka){
+        Korisnik ulogovan = korisnikRepository.findBykorisnickoIme(korisnickoIme);
+
+        if(ulogovan == null || !ulogovan.getLozinka().equals(lozinka))
             return null;
-        }
 
-        return korisnik;
+        return ulogovan;
     }
 
-    public Korisnik getByUsername(String korisnickoIme){
-        Korisnik korisnik = korisnikRepository.getByKorisnickoIme(korisnickoIme);
-
-        return korisnik;
-    }
-
-    public Korisnik register(Korisnik korisnik){
+    public Korisnik sacuvajKorisnika(Korisnik korisnik){
         return korisnikRepository.save(korisnik);
     }
 
-    public List<Korisnik> findAll(){
+    public List<Korisnik> prikaziKorisnike() {
         return korisnikRepository.findAll();
-    }
-
-    public Korisnik save(Korisnik korisnik){
-        return korisnikRepository.save(korisnik);
-    }
-
-    public Korisnik findOne(Long id){
-        Optional<Korisnik> korisnik = korisnikRepository.findById(id);
-
-        if(korisnik.isPresent()){
-            return korisnik.get();
-        }
-
-        return null;
     }
 }

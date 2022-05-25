@@ -23,7 +23,7 @@ public class Dostavljac extends Korisnik implements Serializable {
         super.setUloga(Uloga.DOSTAVLJAC);
     }
 
-    public Dostavljac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, LocalDate datumRodjenja) {
+    public Dostavljac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datumRodjenja) {
         super(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
         super.setUloga(Uloga.DOSTAVLJAC);
     }

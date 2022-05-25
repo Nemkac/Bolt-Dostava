@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Artikal;
-import com.example.demo.repository.ArtikalRepository;
+import com.example.demo.entity.Menadzer;
+import com.example.demo.repository.MenadzerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,26 +9,19 @@ import java.util.Optional;
 
 @Service
 public class ArtikalService {
-
     @Autowired
-    private ArtikalRepository artikalRepository;
+    private ArtikalRepository ArtikalRepository;
 
-    public Artikal saveArtikal(Artikal artikal){
+    public Artikal save(Artikal artikal){
         return artikalRepository.save(artikal);
     }
 
-    public Artikal findOne(Long id){
-        Optional<Artikal> artikal = artikalRepository.findById(id);
-
-        if(artikal.isPresent()){
-            return artikal.get();
-        }
-
-        return null;
+    public Artikal findById(Long id) {
+        return artikalRepository.findById(id);
     }
 
-    public void deleteArtikal(Artikal artikal){
-        artikalRepository.delete(artikal);
+    public deleteById(Long id) {
+        artikalRepository.deleteById(Id);
     }
 
 }

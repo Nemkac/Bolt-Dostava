@@ -28,10 +28,9 @@ public class Restoran implements Serializable {
 
     public Restoran(){}
 
-    public Restoran(String naziv, String tip, Set<Artikal> artikliUPonudi, Lokacija lokacija) {
+    public Restoran(String naziv, String tip, Lokacija lokacija) {
         this.naziv = naziv;
         this.tip = tip;
-        this.artikliUPonudi = artikliUPonudi;
         this.lokacija = lokacija;
     }
 
@@ -85,4 +84,5 @@ public class Restoran implements Serializable {
                 ", lokacija=" + lokacija +
                 '}';
     }
+
 }
