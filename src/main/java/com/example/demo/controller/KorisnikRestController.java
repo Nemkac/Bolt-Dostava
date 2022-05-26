@@ -181,5 +181,28 @@ public class KorisnikRestController {
 
         return restoran;
     }
+
+    @PostMapping("/api/restoran/dodaj_u_korpu")
+    public ResponseEntity<String> dodajUKorpu(@RequestBody KorpaDto korpaDto, HttpSession sesija){
+        Korisnik ulogovan = (Korisnik) sesija.getAttribute("Korisnik");
+
+        if(ulogovan == null){
+            return new ResponseEntity<>("Morate biti ulogovani da bi ste dodali artikle u korpu!", HttpStatus.BAD_REQUEST);
+        }
+
+        if(ulogovan.getUloga() != Uloga.KUPAC){
+            return new ResponseEntity<>("Samo kupci mogu dodavat artikle u korpu!", HttpStatus.BAD_REQUEST);
+        }
+
+        if(korpaDto.getKolicina() <= 0){
+            return new ResponseEntity<>("Morate poruciti 1 ili vise artikala!", HttpStatus.BAD_REQUEST);
+        }
+
+
+
+        return ResponseEntity.ok("Uspesno dodavanje artikla u korpu");
+
+
+    }
 }
 
