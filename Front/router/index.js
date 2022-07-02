@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginComponent from "@/components/LoginComponent";
 import RegisterComponent from "@/components/RegisterComponent";
-import HomeView from "@/views/HomeView";
+import HomeComponent from "@/components/HomeComponent";
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeComponent
   },
   {
     path: '/about',
@@ -18,13 +18,13 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '/login',
-    name: 'login',
+    path: '/prijava',
+    name: 'prijava',
     component: LoginComponent
   },
   {
-    path: '/register',
-    name: 'register',
+    path: '/registracija',
+    name: 'registracija',
     component: RegisterComponent
   }
 

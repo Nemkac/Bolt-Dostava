@@ -2,19 +2,24 @@
   <form>
     <h1>Prijava</h1>
     <div>
-      <label htmlFor="inputEmail4" className="form-label">Korisničko ime</label>
-      <input v-model="korisnik.korisnickoIme" className="form-control"/>
+<!--      <label htmlFor="inputEmail4" className="form-label">Korisničko ime</label>-->
+      Korisnicko ime <input v-model="korisnik.korisnickoIme" className="form-control"/>
     </div>
 
     <div>
-      <label htmlFor="inputPassword4" className="form-label">Lozinka</label>
-      <input v-model="korisnik.lozinka" type="password" className="form-control"/>
+<!--      <label htmlFor="inputPassword4" className="form-label">Lozinka</label>-->
+      Lozinka <input v-model="korisnik.lozinka" type="password" className="form-control"/>
     </div>
 
     <div className="col-12">
-      <button v-on:click="prijaviSe()" className="btn btn-primary">Prijava</button>
+      <button v-on:click="this.prijaviSe()" className="btn btn-primary">Prijava</button>
     </div>
+
   </form>
+
+  <div className="col-12">
+    <button v-on:click="this.prikazi_korisnika()" className="btn btn-primary">Prikazi korisnika</button>
+  </div>
 </template>
 
 <script>
@@ -32,18 +37,43 @@ export default {
   },
   methods: {
     prijaviSe: function () {
+      console.log(this.korisnik);
+      event.preventDefault();
       axios
           .post("http://localhost:8080/api/login", this.korisnik, {
-            withCredentials: true
+            credentials: 'include',
+           // withCredentials: 'True',
+           // mode: 'no-cors'
           })
           .then(res => {
-            console.log(res);
+            //this.$session.start()
+            console.log(res.data);
+            localStorage.setItem('korisnickoIme', res.data.korisnickoIme)
             alert("Uspesno");
-            this.$router.push("/admin");
+
+            //this.$router.push("/admin");
           })
           .catch(error => {
+            alert(error.response);
+            console.log(error);
             console.log(error.response);
             alert("Neuspesno");
+          });
+    },
+    prikazi_korisnika: function (){
+      let korisnickoIme = localStorage.getItem('korisnickoIme');
+      axios
+          .get("http://localhost:8080/api/prikaz_podataka/" + korisnickoIme, {
+            credentials: 'include'
+          })
+          .then(res => {
+            // this.$session.start()
+            alert("Uspesno");
+            console.log(res);
+          })
+          .catch(error => {
+            alert("Neuspesno");
+            console.log(error.response);
           });
     }
   }
@@ -64,4 +94,5 @@ input {
   width: 30%;
   margin: 5px auto;
 }
+body {background-color: #c9de59;}
 </style>
