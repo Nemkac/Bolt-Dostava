@@ -1,7 +1,7 @@
 <template>
 Korpa
 
-  <div class="container">
+  <div class="container" align="center">
     <table class="table">
       <thead>
       <tr>
@@ -53,6 +53,7 @@ export default {
           .then(res => {
             console.log(res);
             this.artikli = res.data.artikli;
+            this.$router.push("/listaRestorana");
           })
           .catch(error => {
             console.log(error.response);

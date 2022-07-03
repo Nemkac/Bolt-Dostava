@@ -8,6 +8,7 @@ import MenadzerPrikazPorudzbinaComponent from "@/components/MenadzerPrikazPorudz
 import KorpaComponent from "@/components/KorpaComponent";
 import DostavljacPrikazPorudzbinaComponent from "@/components/DostavljacPrikazPorudzbinaComponent";
 import ProfilMenadzera from "@/components/profilMenadzera";
+import ProfilKupcaComponent from "@/components/profilKupcaComponent";
 const routes = [
   {
     path: '/',
@@ -66,6 +67,11 @@ const routes = [
     path: '/menadzerProfil',
     name: 'ProfilMenadzera',
     component: ProfilMenadzera
+  },
+  {
+    path: '/profilKupca',
+    name: 'profilKupca',
+    component: ProfilKupcaComponent
   }
 
 

@@ -1,5 +1,5 @@
-<template>
-  <div class="container">
+<template >
+  <div class="container" align="center">
     <h3>Artikli restorana</h3>
 
     <div class="container">

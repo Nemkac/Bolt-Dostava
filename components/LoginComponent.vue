@@ -48,11 +48,19 @@ export default {
             sessionStorage.setItem('korisnickoIme', res.data.korisnickoIme)
             sessionStorage.setItem('ulogovaniKorisnikID', res.data.id)
             sessionStorage.setItem('uloga', res.data.uloga)
-            sessionStorage.setItem('idRestorana',res.data.restoran.id)
+
             alert("Uspesno");
             if (res.data.uloga === 'ADMIN'){
               this.$router.push("/admin");
-            } else{
+            }
+            else if (res.data.uloga === 'MENADZER'){
+              sessionStorage.setItem('idRestorana',res.data.restoran.id)
+              this.$router.push("/menadzerPrikazPorudzbina");
+            }
+            else if (res.data.uloga === 'DOSTAVLJAC'){
+              this.$router.push("/dostavljacPrikazPorudzbina");
+            }
+            else{
               this.$router.push("/listaRestorana");
             }
 

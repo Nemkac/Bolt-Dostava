@@ -14,7 +14,7 @@
 import axios from "axios";
 Vue.use(Vuelidate);
 <template>
-  <div class="container">
+  <div class="container" align="center">
     <h3>SVI RESTORANI</h3>
 
      <input v-model="naziv"  />

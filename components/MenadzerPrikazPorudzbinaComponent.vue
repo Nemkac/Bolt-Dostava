@@ -1,14 +1,13 @@
 <template>
 Lista porudzbina
 
-  <div class="container">
+  <div class="container" align="center">
     <table class="table">
       <thead>
       <tr>
         <th>ID poruzbine</th>
         <th>Restoran</th>
         <th>Cena</th>
-        <th>Dostavljac</th>
         <th>Status</th>
         <th>Kupac</th>
         <th>Artikli</th>
@@ -18,8 +17,7 @@ Lista porudzbina
       <tr v-for="porudzbina in porudzbine" v-bind:key="porudzbina.id">
         <td>{{porudzbina.id}}</td>
         <td>{{porudzbina.restoran.naziv}}</td>
-        <td>{{porudzbina.id}}</td>
-        <td>{{porudzbina.restoran.naziv}}</td>
+        <td>{{porudzbina.cena}}</td>
         <td>{{porudzbina.status}}</td>
         <td>{{porudzbina.kupac.korisnickoIme}}</td>
         <td>
@@ -27,7 +25,6 @@ Lista porudzbina
             <tr v-for="artikal in porudzbina.poruceniArtikli" v-bind:key="artikal.id">
               <td>{{artikal.naziv}}</td>
               <td>{{artikal.cena}} RSD</td>
-              <td>{{artikal.kolicina}} </td>
             </tr>
             </table>
         </td>

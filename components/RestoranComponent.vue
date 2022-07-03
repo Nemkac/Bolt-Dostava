@@ -2,7 +2,7 @@
   <div class="container">
     <h3>Artikli restorana</h3>
 
-    <div class="container">
+    <div class="container" align="center">
       <table class="table">
         <thead>
         <tr>
@@ -24,6 +24,9 @@
       </table>
     </div>
   </div>
+  <br>
+  <br>
+  <button v-on:click="this.idiUKorpu()" className="btn btn-primary"> Idi u korpu </button>
 
 
 </template>
@@ -83,6 +86,9 @@ export default {
     let korisnickoIme = sessionStorage.getItem('korisnickoIme');
     Axios.post("http://localhost:8080/api/restoran/"+ this.$route.params.id+ "/korpa/dodajUKorpu/"+ korisnickoIme , dukdto)
   },
+  idiUKorpu(){
+    this.$router.push("/korpa");
+  }
   },
   created() {
     console.log('kreirano')

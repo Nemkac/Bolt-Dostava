@@ -1,7 +1,7 @@
 <template>
   Lista porudzbina
 
-  <div class="container">
+  <div class="container" align="center">
     <table class="table">
       <thead>
       <tr>
