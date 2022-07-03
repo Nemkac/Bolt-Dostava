@@ -9,6 +9,7 @@ import KorpaComponent from "@/components/KorpaComponent";
 import DostavljacPrikazPorudzbinaComponent from "@/components/DostavljacPrikazPorudzbinaComponent";
 import ProfilMenadzera from "@/components/profilMenadzera";
 import ProfilKupcaComponent from "@/components/profilKupcaComponent";
+import AdminComponent from "@/components/AdminComponent";
 const routes = [
   {
     path: '/',
@@ -72,6 +73,11 @@ const routes = [
     path: '/profilKupca',
     name: 'profilKupca',
     component: ProfilKupcaComponent
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: AdminComponent
   }
 
 
