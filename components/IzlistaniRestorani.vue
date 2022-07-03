@@ -14,6 +14,9 @@
 import axios from "axios";
 Vue.use(Vuelidate);
 <template>
+  <button v-on:click="this.otvoriProfil()" className="btn btn-primary"> Prikazi profil </button>
+  <button v-on:click="this.otvoriPorudzbine()" className="btn btn-primary"> Prikazi porudzbine </button>
+
   <div class="container" align="center">
     <h3>SVI RESTORANI</h3>
 
@@ -123,7 +126,13 @@ export default {
     },
     prikazRestorana(id){
       this.$router.push("/pregledArtikalaRestorana/"+id);
-}
+},
+    otvoriProfil(){
+      this.$router.push("/profilKupca/");
+    },
+    otvoriPorudzbine(){
+      this.$router.push("/porudzbineKupca/");
+    }
   },
   created() {
     console.log('kreirano')

@@ -64,7 +64,8 @@ export default {
           .put("http://localhost:8080/api/menadzer/promeniStatusUPripremi/"+ idPorudzbine +"/" + korisnickoIme)
           .then(res => {
             console.log(res);
-            this.$router.push("/menadzerPrikazPorudzbina");
+            window.location.reload();
+            // this.$router.push("/menadzerPrikazPorudzbina");
           })
           .catch(error => {
             console.log(error.response);
@@ -76,6 +77,7 @@ export default {
           .put("http://localhost:8080/api/dostavljac/promeniStatusUTransportu/"+ idPorudzbine +"/" + korisnickiID)
           .then(res => {
             console.log(res);
+            window.location.reload();
           })
           .catch(error => {
             console.log(error.response);
@@ -87,6 +89,7 @@ export default {
         .put("http://localhost:8080/api/dostavljac/promeniStatusUDostavljena/"+ idPorudzbine +"/" + korisnickiID)
         .then(res => {
           console.log(res);
+          window.location.reload();
         })
         .catch(error => {
           console.log(error.response);

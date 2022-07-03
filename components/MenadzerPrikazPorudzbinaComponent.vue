@@ -1,6 +1,9 @@
 <template>
-Lista porudzbina
+  <button v-on:click="this.otvoriProfilRestorana()" className="btn btn-primary"> Prikazi profil restorana</button>
+  <br><br><br>
 
+  Lista porudzbina
+  <br><br>
   <div class="container" align="center">
     <table class="table">
       <thead>
@@ -71,7 +74,8 @@ export default {
           .put("http://localhost:8080/api/menadzer/promeniStatusUPripremi/"+ idPorudzbine +"/" + korisnickoIme)
           .then(res => {
             console.log(res);
-            this.$router.push("/menadzerPrikazPorudzbina");
+            window.location.reload();
+            // this.$router.push("/menadzerPrikazPorudzbina");
           })
           .catch(error => {
             console.log(error.response);
@@ -83,12 +87,16 @@ export default {
           .put("http://localhost:8080/api/menadzer/promeniStatusUCekaDostavljaca/"+ idPorudzbine +"/" + korisnickoIme)
           .then(res => {
             console.log(res);
-            this.$router.push("/menadzerPrikazPorudzbina");
+            window.location.reload();
+            // this.$router.push("/menadzerPrikazPorudzbina");
           })
           .catch(error => {
             console.log(error.response);
           });
     },
+    otvoriProfilRestorana(){
+      this.$router.push("/menadzerProfil");
+    }
   },
   created() {
     this.prikaziKorisnikovuKorpu();

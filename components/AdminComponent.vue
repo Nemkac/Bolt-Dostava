@@ -225,6 +225,7 @@ export default {
           .then(res => {
             console.log(res);
             alert("Uspesno");
+            window.location.reload();
           })
           .catch(error => {
             console.log(error.response);
@@ -239,6 +240,7 @@ export default {
           .then(res => {
             console.log(res);
             alert("Uspesno");
+            window.location.reload();
           })
           .catch(error => {
             console.log(error.response);
@@ -253,6 +255,7 @@ export default {
           .then(res => {
             console.log(res);
             alert("Uspesno");
+            window.location.reload();
           })
           .catch(error => {
             console.log(error.response);
