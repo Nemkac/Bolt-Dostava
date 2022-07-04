@@ -5,6 +5,7 @@ import com.example.demo.entity.*;
 import com.example.demo.repository.ArtikalRepository;
 import com.example.demo.repository.MenadzerRepository;
 import com.example.demo.repository.PorudzbinaRepository;
+import com.example.demo.repository.RestoranRepository;
 import com.example.demo.service.MenadzerService;
 import com.example.demo.service.PorudzbinaService;
 import com.example.demo.service.SessionService;
@@ -37,6 +38,9 @@ public class MenadzeerRestController {
 
     @Autowired
     private PorudzbinaService porudzbinaService;
+
+    @Autowired
+    private RestoranRepository restoranRepository;
 
 
     @GetMapping("/api/menadzer/pregledPorudzbina/{korisnickoIme}")
@@ -79,8 +83,37 @@ public class MenadzeerRestController {
         if(loggedMenadzer == null){
             return new ResponseEntity<>("Nema ulogovanih menadzera, artikal se ne moze dodati",HttpStatus.METHOD_NOT_ALLOWED);
         }
-        menadzerService.dodajArtikal(artikalDto.getNaziv(),artikalDto.getCena(),artikalDto.getTip(),loggedMenadzer);
+        menadzerService.dodajArtikal(artikalDto.getNaziv(),artikalDto.getCena(),artikalDto.getTip(),artikalDto.getOpis(),loggedMenadzer);
         return ResponseEntity.ok("Artikal dodat");
+    }
+
+    @PostMapping("/api/menadzer/otvori_restoran/{restoranID}/{otvoren}")
+    public ResponseEntity<String> otvoriRestoran( @PathVariable(name = "restoranID") Long restoranID, @PathVariable(name = "otvoren") boolean otvoren, HttpSession sesija){
+
+        Restoran restoran = restoranRepository.getById(restoranID);
+
+        if(restoran == null){
+            return new ResponseEntity<>("Restoran ne postoji.",HttpStatus.METHOD_NOT_ALLOWED);
+        }
+        restoran.setRadi(otvoren);
+        restoranRepository.save(restoran);
+        if(otvoren) {
+            return ResponseEntity.ok("Restoran otvoren!");
+        } else return ResponseEntity.ok("Restoran zatvoren!");
+
+    }
+
+    @GetMapping("/api/menadzer/getRestoran/{restoranID}")
+    public ResponseEntity<RestoranDto> getRestoran( @PathVariable(name = "restoranID") Long restoranID, HttpSession sesija){
+
+        Restoran restoran = restoranRepository.getById(restoranID);
+
+        if(restoran == null){
+            return new ResponseEntity<>(null);
+        }
+        RestoranDto ret = new RestoranDto(restoran);
+        return ResponseEntity.ok(ret);
+
     }
 
     @PutMapping("/api/menadzer/izmeni_artikal/{korisnickoIme}")
@@ -99,8 +132,8 @@ public class MenadzeerRestController {
     }
 
     //Izmenjeno brisanje artikla(POPRAVLJENO)
-    @DeleteMapping("/api/menadzer/obrisiArtikal/{korisnickoIme}")
-    public ResponseEntity<String> obrisiArtikal(@RequestBody ArtikalZaBrisanjeDto azbDto, HttpSession sesija, @PathVariable(name = "korisnickoIme") String korisnickoIme){
+    @DeleteMapping("/api/menadzer/obrisiArtikal/{artikalZaBrisanje}/{korisnickoIme}")
+    public ResponseEntity<String> obrisiArtikal(@PathVariable(name = "artikalZaBrisanje") String artikalZaBrisanje, HttpSession sesija, @PathVariable(name = "korisnickoIme") String korisnickoIme){
         Menadzer ulogovanMenadzer = menadzerRepository.getByKorisnickoIme(korisnickoIme);
 
         if(ulogovanMenadzer == null){
@@ -111,7 +144,7 @@ public class MenadzeerRestController {
             return new ResponseEntity("Ova funkcionalnost dozvoljena je samo menadzerima", HttpStatus.METHOD_NOT_ALLOWED);
         }
 
-        Artikal zaBrisanje = artikalRepository.getByNaziv(azbDto.getNaziv());
+        Artikal zaBrisanje = artikalRepository.getByNaziv(artikalZaBrisanje);
         menadzerService.obrisiArtikal(zaBrisanje, ulogovanMenadzer);
 
         return ResponseEntity.ok("Artikal uspesno obrisan");

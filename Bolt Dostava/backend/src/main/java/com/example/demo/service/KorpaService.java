@@ -83,6 +83,7 @@ public class KorpaService {
         for(Korpa k : aktivnaKorpa){
             p.getPoruceniArtikli().add(k.getArtikal());
         }
+        p.setCena(ukupnaCena);
         porudzbinaRepository.save(p);
         //kupac.getSvePorudzbine().add(p);
 

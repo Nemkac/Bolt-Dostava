@@ -1,11 +1,13 @@
 package com.example.demo.entity;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@DiscriminatorValue("Admin")
 public class Admin extends Korisnik implements Serializable {
     public Admin(){
         super();

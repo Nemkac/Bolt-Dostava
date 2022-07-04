@@ -18,10 +18,13 @@ public class KorisnikService {
     @Autowired
     private KorisnikRepository korisnikRepository;
 
-    public Korisnik registracija(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datum){
-        Korisnik noviKorisnik = new Korisnik(korisnickoIme, lozinka, ime, prezime, pol, datum);
+    @Autowired
+    private KupacRepository kupacRepository;
+
+    public Kupac registracija(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datum){
+        Kupac noviKorisnik = new Kupac(korisnickoIme, lozinka, ime, prezime, pol, datum);
         noviKorisnik.setUloga(Uloga.KUPAC);
-        korisnikRepository.save(noviKorisnik);
+        kupacRepository.save(noviKorisnik);
 
         return noviKorisnik;
     }

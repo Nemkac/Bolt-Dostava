@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,
+        name = "Tip_korisnika")
 public class Korisnik implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

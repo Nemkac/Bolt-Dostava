@@ -14,6 +14,7 @@ public class PorudzbinaDto {
     double cena;
     Status status;
     String korisnickoIme;
+    Long id;
 
     public PorudzbinaDto(Set<Artikal> poruceniArtikli, Restoran restoran, Date datumIVreme, double cena, Status status, String korisnickoIme) {
         this.poruceniArtikli = poruceniArtikli;
@@ -31,6 +32,7 @@ public class PorudzbinaDto {
         this.cena = porudzbina.getCena();
         this.status = porudzbina.getStatus();
         this.korisnickoIme = porudzbina.getKorisnickoIme();
+        this.id = porudzbina.getId();
     }
 
     public Set<Artikal> getPoruceniArtikli() {

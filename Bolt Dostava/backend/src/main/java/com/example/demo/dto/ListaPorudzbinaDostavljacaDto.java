@@ -10,8 +10,15 @@ import javax.persistence.Id;
 import java.util.Date;
 
 public class ListaPorudzbinaDostavljacaDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     private Long id;
 
     private String UUID;
@@ -25,7 +32,7 @@ public class ListaPorudzbinaDostavljacaDto {
     private Status status;
 
     public ListaPorudzbinaDostavljacaDto(Porudzbina p){
-        this.UUID = p.getUUID();
+        this.id = p.getId();
         this.datum = p.getDatum();
         this.ime = p.getKupac().getIme();
         this.prezime = p.getKupac().getPrezime();

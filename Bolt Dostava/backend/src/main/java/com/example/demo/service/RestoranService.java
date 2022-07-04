@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class RestoranService {
@@ -51,6 +52,10 @@ public class RestoranService {
             }
         }
         return false;
+    }
+
+    public Set<Artikal> izlistajArtikle(Restoran restoran) {
+        return restoran.getArtikliUPonudi();
     }
 
 

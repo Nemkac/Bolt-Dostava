@@ -26,8 +26,8 @@ public class MenadzerService {
         return pronadjeni.orElse(null);
     }
 
-    public void dodajArtikal(String naziv, Long cena, TipArtikla tip, Menadzer menadzer) {
-        Artikal artikal = new Artikal(naziv, cena, tip);
+    public void dodajArtikal(String naziv, Long cena, TipArtikla tip,String opis, Menadzer menadzer) {
+        Artikal artikal = new Artikal(naziv, cena, tip,opis);
         artikal.setRestoran(menadzer.getRestoran());
         artikalRepository.save(artikal);
         menadzer.getRestoran().getArtikliUPonudi().add(artikal);

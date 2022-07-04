@@ -72,8 +72,8 @@ public class DostavljacRestController {
         return ResponseEntity.ok(porudzbineDto);
     }
 
-    @PutMapping("api/dostavljac/promeniStatusUTransportu/{idPorudzbine}/{dostavljaciD}")
-    public ResponseEntity<String> promeniStatusUTransportu(@PathVariable(name = "idPorudzbine") Long idPorudzbine, @PathVariable Long dostavljacId, HttpSession session){
+    @PutMapping("api/dostavljac/promeniStatusUTransportu/{idPorudzbine}/{dostavljacId}")
+    public ResponseEntity<String> promeniStatusUTransportu(@PathVariable(name = "idPorudzbine") Long idPorudzbine, @PathVariable(name = "dostavljacId") Long dostavljacId){
         Dostavljac loggedDostavljac = dostavljacService.findDostavljacById(dostavljacId);
         if(loggedDostavljac == null){
             return new ResponseEntity("Nema ulogovanih dostavljaca!",HttpStatus.METHOD_NOT_ALLOWED);
@@ -96,7 +96,7 @@ public class DostavljacRestController {
         return ResponseEntity.ok("Uspesno azuriran status. Status = U_TRANSPORTU");
     }
 
-    @PutMapping("api/dostavljac/promeniStatusUDostavljena/{idPorudzbine}/{dostavljaciD}")
+    @PutMapping("api/dostavljac/promeniStatusUDostavljena/{idPorudzbine}/{dostavljacId}")
     public ResponseEntity<String> promeniStatusUDostavljena(@PathVariable(name = "idPorudzbine") Long idPorudzbine, @PathVariable Long dostavljacId, HttpSession session){
         Dostavljac loggedDostavljac = dostavljacService.findDostavljacById(dostavljacId);
         if(loggedDostavljac == null){
@@ -113,7 +113,7 @@ public class DostavljacRestController {
         if(p.getStatus() != Status.UTRANSPORTU)
             return new ResponseEntity("Status porudzbine nije: U_TRANSPORTU", HttpStatus.BAD_REQUEST);
 
-
+        Kupac k = p.getKupac();
         porudzbineService.updateStauts(Status.DOSTAVLJENA, idPorudzbine);
         kupacService.updateKupacBodovi(p);
 

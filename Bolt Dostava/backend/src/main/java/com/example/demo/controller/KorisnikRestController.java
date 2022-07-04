@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 @RestController
 public class KorisnikRestController {
@@ -45,6 +42,7 @@ public class KorisnikRestController {
         }
 
         Korisnik noviKorisnik =  korisnikService.registracija(registerDtoDto.getKorisnickoIme(), registerDtoDto.getLozinka(), registerDtoDto.getIme(), registerDtoDto.getPrezime(), registerDtoDto.getPol(), registerDtoDto.getDatum());
+
         if(noviKorisnik == null){
             return new ResponseEntity<>("Uneto korisnicko ime vec postoji!", HttpStatus.BAD_REQUEST);
         }
@@ -118,11 +116,11 @@ public class KorisnikRestController {
         ulogovan.setLozinka(korisnikDto.getLozinka());
         ulogovan.setIme(korisnikDto.getIme());
         ulogovan.setPrezime(korisnikDto.getPrezime());
-        ulogovan.setPol(korisnikDto.getPol());
-        ulogovan.setDatum(korisnikDto.getDatum());
+//        ulogovan.setPol(korisnikDto.getPol());
+//        ulogovan.setDatum(korisnikDto.getDatum());
 
         korisnikService.sacuvajKorisnika(ulogovan);
-        sesija.setAttribute("Korisnik", ulogovan);
+//        sesija.setAttribute("Korisnik", ulogovan);
         return ResponseEntity.ok("Podaci uspesno izmenjeni!");
 
 //        return new ResponseEntity<>("Greska prilikom izmene podataka!", HttpStatus.EXPECTATION_FAILED);
@@ -131,12 +129,6 @@ public class KorisnikRestController {
     //Isto kao prethodna funkcija, trebalo bi da radi samo sto ne znam kako da podesim postmen da mi ispise dobro
     @GetMapping("/api/listaKorisnika")
     public ResponseEntity<List<Korisnik>> listaKorisnika(HttpSession sesija){
-//        if(!sessionService.validacijaSesije(sesija)){
-//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        }
-//        if(!sessionService.getUloga(sesija).equals(Uloga.ADMIN)){
-//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        }
 
         List<Korisnik> listaKorisnika = korisnikService.prikaziKorisnike();
 
@@ -168,7 +160,7 @@ public class KorisnikRestController {
         List<Restoran> restorans = new ArrayList<>();
 
         for(Restoran restoran : listaRestorana){
-            if(restoran.getNaziv().contains(nazivRestorana)){
+            if(restoran.getNaziv().toLowerCase().contains(nazivRestorana.toLowerCase())){
                 restorans.add(restoran);
             }
         }
@@ -184,21 +176,21 @@ public class KorisnikRestController {
         List<Restoran> restorans = new ArrayList<>();
 
         for(Restoran restoran : listaRestorana){
-            if(restoran.getTip().equals(tipRestorana)){
+            if(restoran.getTip().toLowerCase().contains(tipRestorana.toLowerCase())){
                 restorans.add(restoran);
             }
         }
         return restorans;
     }
 
-    @GetMapping("/api/restoran/pretraga/poLokaciji")
-    public List<Restoran> pretraziPoLokaciji(@RequestBody pretragaPoLokacijiDto pplDto){
+    @GetMapping("/api/restoran/pretraga/poLokaciji/{adresaRestorana}")
+    public List<Restoran> pretraziPoLokaciji(@PathVariable String adresaRestorana){
         List<Restoran> listaRestorana = restoranService.findAll();
 
         List<Restoran> restorans = new ArrayList<>();
 
         for(Restoran restoran : listaRestorana){
-            if(restoran.getTip().equals(pplDto.getLokacija())){
+            if(restoran.getLokacija().getAdresa().toLowerCase().contains(adresaRestorana.toLowerCase())){
                 restorans.add(restoran);
             }
         }
@@ -228,7 +220,9 @@ public class KorisnikRestController {
     }
 
     @GetMapping("/api/pregledArtikalaRestorana/{idRestorana}")
-    public ResponseEntity getArtikliByRestoran(Restoran restoran,HttpSession sesija){
+    public ResponseEntity getArtikliByRestoran(@PathVariable Long idRestorana, HttpSession sesija){
+        Restoran restoran = restoranService.findById(idRestorana);
+        System.out.println(restoran.getArtikliUPonudi());
         return ResponseEntity.ok(restoran.getArtikliUPonudi());
     }
 

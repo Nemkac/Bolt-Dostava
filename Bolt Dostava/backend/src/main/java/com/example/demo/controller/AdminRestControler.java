@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.*;
 import com.example.demo.entity.*;
 import com.example.demo.repository.AdminRepository;
+import com.example.demo.repository.MenadzerRepository;
 import com.example.demo.service.*;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class AdminRestControler {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private MenadzerRepository menadzerRepository;
+
     public Korisnik getKorisnikByKorisnickoIme(String korisnickoIme){
         List<Korisnik> listaKorisnika = korisnikService.prikaziKorisnike();
         for(Korisnik korisnik : listaKorisnika){
@@ -61,19 +65,46 @@ public class AdminRestControler {
         return ResponseEntity.ok("Dostavljac uspesno kreiran");
     }
 
-    @PostMapping("/api/kreiraj_menadzera/{korisnickoIme}")
-    public ResponseEntity<String> kreirajMenadzera(@RequestBody KorisnikDto korisnikDto,@PathVariable String korisnickoIme, HttpSession sesija){
+    @PostMapping("/api/kreiraj_menadzera/{korisnickoIme}/{nazivRestorana}")
+    public ResponseEntity<String> kreirajMenadzera(@RequestBody KorisnikDto korisnikDto,@PathVariable String korisnickoIme,@PathVariable String nazivRestorana, HttpSession sesija){
+
+        Admin ulogovanAdmin = adminRepository.getByKorisnickoIme(korisnickoIme);
+        Restoran restoran = restoranService.findByNaziv(nazivRestorana);
+
+        if(ulogovanAdmin == null) {
+            return new ResponseEntity<>("Nema ulogovanih admina!", HttpStatus.BAD_REQUEST);
+        }
+        else{
+            Menadzer noviMenadzer = adminService.napraviMenadzera(korisnikDto.getKorisnickoIme(), korisnikDto.getLozinka(), korisnikDto.getIme(), korisnikDto.getPrezime(), korisnikDto.getPol(), korisnikDto.getDatum());
+            if(noviMenadzer.getRestoran() == null){
+                noviMenadzer.setRestoran(restoran);
+                menadzerRepository.save(noviMenadzer);
+            }
+        }
+
+        return ResponseEntity.ok("Menadzer uspesno kreiran");
+    }
+
+    @PutMapping("/api/menadzer/dodeliRestoran/{korisnickoIme}")
+    public ResponseEntity<String> dodeliMenadzera(@RequestBody DodelaRestoranaDto drdto, @PathVariable String korisnickoIme, HttpSession session){
 
         Admin ulogovanAdmin = adminRepository.getByKorisnickoIme(korisnickoIme);
 
         if(ulogovanAdmin == null) {
             return new ResponseEntity<>("Nema ulogovanih admina!", HttpStatus.BAD_REQUEST);
         }
+
+        Menadzer menadzerZaDodelu = menadzerService.findByUsername(drdto.getKorisnickoIme());
+        Restoran restoran = restoranService.findByNaziv(drdto.getNaziv());
+
+        if(menadzerZaDodelu.getRestoran() == null){
+            menadzerZaDodelu.setRestoran(restoran);
+        }
         else{
-            adminService.napraviMenadzera(korisnikDto.getKorisnickoIme(), korisnikDto.getLozinka(), korisnikDto.getIme(), korisnikDto.getPrezime(), korisnikDto.getPol(), korisnikDto.getDatum());
+            return new ResponseEntity<>("Menadzer vec ima restoran!", HttpStatus.BAD_REQUEST);
         }
 
-        return ResponseEntity.ok("Menadzer uspesno kreiran");
+        return ResponseEntity.ok("Uspesno dodeljen menadzer!");
     }
 
     //Ispravljen prikaz svih korisnika kao admin
@@ -112,7 +143,7 @@ public class AdminRestControler {
             return new ResponseEntity<>("Admin nije ulogovan!", HttpStatus.BAD_REQUEST);
         }
         else{
-            adminService.napraviRestoran(restoranDto.getNaziv(), restoranDto.getTip(), restoranDto.getGeoDuzina(), restoranDto.getGeoSirina(), restoranDto.getAdresa(), restoranDto.getMenadzer(), restoranDto.isStatus());
+            adminService.napraviRestoran(restoranDto.getNaziv(), restoranDto.getTip(), restoranDto.getGeoDuzina(), restoranDto.getGeoSirina(), restoranDto.getAdresa(), false);
 
         }
 
@@ -120,27 +151,7 @@ public class AdminRestControler {
 
     }
 
-    @PutMapping("/api/menadzer/dodeliRestoran/{korisnickoIme}")
-    public ResponseEntity<String> dodeliMenadzera(@RequestBody DodelaRestoranaDto drdto, @PathVariable String korisnickoIme, HttpSession session){
 
-        Admin ulogovanAdmin = adminRepository.getByKorisnickoIme(korisnickoIme);
-
-        if(ulogovanAdmin == null) {
-            return new ResponseEntity<>("Nema ulogovanih admina!", HttpStatus.BAD_REQUEST);
-        }
-
-        Menadzer menadzerZaDodelu = menadzerService.findByUsername(drdto.getKorisnickoIme());
-        Restoran restoran = restoranService.findByNaziv(drdto.getNaziv());
-
-        if(menadzerZaDodelu.getRestoran() == null){
-            menadzerZaDodelu.setRestoran(restoran);
-        }
-        else{
-            return new ResponseEntity<>("Menadzer vec ima restoran!", HttpStatus.BAD_REQUEST);
-        }
-
-        return ResponseEntity.ok("Uspesno dodeljen menadzer!");
-    }
 
     /*@PostMapping("/api/obrisi_restoran")
     public ResponseEntity<String> obrisiRestoran(HttpSession sesija){

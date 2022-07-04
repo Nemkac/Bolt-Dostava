@@ -13,6 +13,16 @@ public class RestoranDto {
     private String menadzer;
     private boolean status;
 
+    public boolean isRadi() {
+        return radi;
+    }
+
+    public void setRadi(boolean radi) {
+        this.radi = radi;
+    }
+
+    private boolean radi;
+
     public RestoranDto(String naziv, String tip, long geoDuzina, long geoSirina, String adresa, boolean status) {
         this.naziv = naziv;
         this.tip = tip;
@@ -20,6 +30,12 @@ public class RestoranDto {
         this.geoSirina = geoSirina;
         this.adresa = adresa;
         this.status = status;
+    }
+
+    public RestoranDto(Restoran restoran) {
+        this.naziv = restoran.getNaziv();
+        this.tip = restoran.getTip();
+        this.radi = restoran.isRadi();
     }
 
     public RestoranDto(){}

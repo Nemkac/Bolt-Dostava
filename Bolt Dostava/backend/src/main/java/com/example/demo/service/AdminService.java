@@ -38,7 +38,7 @@ public class AdminService {
         return noviDostavljac;
     }
 
-    public Restoran napraviRestoran(String naziv, String tip, long geoDuzina, long geoSirina, String adresa, String menadzer, boolean radi){
+    public Restoran napraviRestoran(String naziv, String tip, long geoDuzina, long geoSirina, String adresa,  boolean radi){
         Lokacija novaLokacija = new Lokacija(geoDuzina, geoSirina, adresa);
         Restoran noviRestoran = new Restoran(naziv, tip, novaLokacija, radi);
         lokacijaRepository.save(novaLokacija);

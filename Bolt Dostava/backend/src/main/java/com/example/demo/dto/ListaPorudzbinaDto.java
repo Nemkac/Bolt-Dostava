@@ -11,7 +11,7 @@ public class ListaPorudzbinaDto {
 
     private Date datum;
 
-    private PodaciDto dostavljac;
+    //private PodaciDto dostavljac;
 
     private String nazivRestorana;
 
@@ -20,7 +20,7 @@ public class ListaPorudzbinaDto {
     public ListaPorudzbinaDto(Porudzbina porudzbina){
         this.UUID = porudzbina.getUUID();
         this.datum = porudzbina.getDatum();
-        this.dostavljac = new PodaciDto(porudzbina.getDostavljac().getIme(), porudzbina.getDostavljac().getPrezime());
+       // this.dostavljac = new PodaciDto(porudzbina.getDostavljac().getIme(), porudzbina.getDostavljac().getPrezime());
         this.nazivRestorana = porudzbina.getRestoran().getNaziv();
         this.status = porudzbina.getStatus();
     }
@@ -41,13 +41,13 @@ public class ListaPorudzbinaDto {
         this.datum = datum;
     }
 
-    public PodaciDto getDostavljac() {
-        return dostavljac;
-    }
+//    public PodaciDto getDostavljac() {
+//        return dostavljac;
+//    }
 
-    public void setDostavljac(PodaciDto dostavljac) {
-        this.dostavljac = dostavljac;
-    }
+//    public void setDostavljac(PodaciDto dostavljac) {
+//        this.dostavljac = dostavljac;
+//    }
 
     public String getNazivRestorana() {
         return nazivRestorana;

@@ -67,13 +67,14 @@ public class DatabaseConfiguration {
         artikalRepository.save(pice);
 
         Lokacija lokacija = new Lokacija((long) 32.112, (long) 69.420, "Hilandarska 2a");
+
         lokacijaRepository.save(lokacija);
 
         Set<Artikal> jelovnikCiao = new HashSet<>();
         Set<Artikal> jelovnikFoodic = new HashSet<>();
-        jelovnikCiao.add(artikal);
-        jelovnikCiao.add(artikal1);
-        jelovnikCiao.add(artikal2);
+//        jelovnikCiao.add(artikal);
+//        jelovnikCiao.add(artikal1);
+//        jelovnikCiao.add(artikal2);
         jelovnikCiao.add(artikal3);
         jelovnikCiao.add(artikal4);
         jelovnikCiao.add(pice);
@@ -83,19 +84,19 @@ public class DatabaseConfiguration {
 
         Restoran restoran = new Restoran("Picerija 'Ciao'", "Italijanski", lokacija);
         Restoran restoran2 = new Restoran("Foodic", "Fast-Food", lokacija);
-        restoran.getArtikliUPonudi().add(artikal);
-        restoran.getArtikliUPonudi().add(artikal1);
-        restoran.getArtikliUPonudi().add(artikal2);
-        restoran.getArtikliUPonudi().add(artikal3);
-        restoran.getArtikliUPonudi().add(artikal4);
-        restoran.getArtikliUPonudi().add(pice);
-        restoran2.getArtikliUPonudi().add(artikal);
-        restoran2.getArtikliUPonudi().add(artikal1);
-        restoran2.getArtikliUPonudi().add(artikal2);
+//        restoran.getArtikliUPonudi().add(artikal);
+//        restoran.getArtikliUPonudi().add(artikal1);
+//        restoran.getArtikliUPonudi().add(artikal2);
+//        restoran.getArtikliUPonudi().add(artikal3);
+//        restoran.getArtikliUPonudi().add(artikal4);
+//        restoran.getArtikliUPonudi().add(pice);
+//        restoran2.getArtikliUPonudi().add(artikal);
+//        restoran2.getArtikliUPonudi().add(artikal1);
+//        restoran2.getArtikliUPonudi().add(artikal2);
 
 
         restoran.setArtikliUPonudi(jelovnikCiao);
-        restoran.setArtikliUPonudi(jelovnikFoodic);
+        restoran2.setArtikliUPonudi(jelovnikFoodic);
 
 
         restoranRepository.save(restoran);
@@ -106,6 +107,7 @@ public class DatabaseConfiguration {
         dostavljacRepository.save(dostavljac1);
         Dostavljac dostavljac2 = new Dostavljac("Sunjalica", "nikola123", "Nikola", "Radovic", Pol.MUSKO, new Date(2001, Calendar.MAY, 12));
         dostavljac2.setUloga(Uloga.DOSTAVLJAC);
+        dostavljacRepository.save(dostavljac2);
 
         Kupac kupac1 = new Kupac("dooka", "dooka1", "Teodora", "Zunic", Pol.ZENSKO, new Date(2002, Calendar.JULY, 4), 50, tip1);
         kupac1.setUloga(Uloga.KUPAC);
@@ -118,9 +120,9 @@ public class DatabaseConfiguration {
         komentarRepository.save(komentar1);
 
         Menadzer menadzer1 = new Menadzer("cuka", "cuka123", "Nikola", "Kojic", Pol.MUSKO, new Date(2001, 12, 1));
-        menadzer1.setRestoran(restoran);
+        menadzer1.setRestoran(restoran2);
         menadzer1.setUloga(Uloga.MENADZER);
-        menadzer1.setRestoran(restoran);
+        menadzer1.setRestoran(restoran2);
         menadzerRepository.save(menadzer1);
 
         Admin adminNemanja = new Admin("nemkac", "nemkac123", "Nemanja", "Todorovic", Pol.MUSKO,new Date(2002, 1,18));

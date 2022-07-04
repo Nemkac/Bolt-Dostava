@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.*;
 import com.example.demo.entity.*;
+import com.example.demo.repository.KorisnikRepository;
 import com.example.demo.repository.KupacRepository;
 import com.example.demo.repository.RestoranRepository;
 import com.example.demo.service.*;
@@ -42,6 +43,9 @@ public class KupacRestController {
     @Autowired
     private KorpaService korpaService;
 
+    @Autowired
+    private KorisnikRepository korisnikRepository;
+
     @PostMapping("/api/restoran/{idRestorana}/korpa/dodajUKorpu/{korisnickoIme}")
     public ResponseEntity<String> dodajUKorpu(@PathVariable(name = "idRestorana") Long idRestorana, @PathVariable(name = "korisnickoIme") String korisnickoIme, @RequestBody DodajUKorpuDto dukdto, HttpSession session) {
 
@@ -66,8 +70,8 @@ public class KupacRestController {
         }
     }
 
-    @GetMapping("/api/restoran/{idRestorana}/korpa/pregledKorpe/{korisnickoIme}")
-    public ResponseEntity<PrikazKorpeDto> pregledKorpe(@PathVariable(name = "idRestorana") Long idRestorana, @PathVariable(name = "korisnickoIme") String korisnickoIme, HttpSession session){
+    @GetMapping("/api/korpa/pregledKorpe/{korisnickoIme}")
+    public ResponseEntity<PrikazKorpeDto> pregledKorpe(@PathVariable(name = "korisnickoIme") String korisnickoIme, HttpSession session){
 
         Kupac ulogovanKupac = kupacRepository.getByKorisnickoIme(korisnickoIme);
 
@@ -77,7 +81,7 @@ public class KupacRestController {
 
         List<Korpa> aktivnaKorpa = korpaService.getAktivnaKorpa(ulogovanKupac.getId());
         if(aktivnaKorpa.isEmpty())
-            return new ResponseEntity("Korpa je prazna", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Korpa je prazna", HttpStatus.OK);
 
         List<PrikazArtikalaDto> aktivnaKorpaDto = new ArrayList<>();
         int ukupnaCena = 0;
@@ -126,9 +130,8 @@ public class KupacRestController {
         return ResponseEntity.ok(dtos);
     }
 
-    //Proveriti sta nije kako treba!!!
-    @PutMapping("/api/restoran/{idRestorana}/korpa/kreirajPorudzbinu/{korisnickoIme}")
-    public ResponseEntity<String> kreirajPorudzbinu(@PathVariable(name = "idRestorana") Long idRestorana, @PathVariable(name = "korisnickoIme") String korisnickoIme, HttpSession session) {
+    @PutMapping("/api/korpa/kreirajPorudzbinu/{korisnickoIme}")
+    public ResponseEntity<String> kreirajPorudzbinu(@PathVariable(name = "korisnickoIme") String korisnickoIme, HttpSession session) {
 
         Kupac ulogovanKupac = kupacRepository.getByKorisnickoIme(korisnickoIme);
 

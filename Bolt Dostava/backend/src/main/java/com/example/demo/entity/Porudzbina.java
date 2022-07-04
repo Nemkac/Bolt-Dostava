@@ -12,6 +12,7 @@ import java.util.*;
 
 @Entity
 public class Porudzbina implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -58,6 +59,9 @@ public class Porudzbina implements Serializable {
         this.jednaPorudzbina = new HashSet<>();
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public String getUUID() {
         return UUID;

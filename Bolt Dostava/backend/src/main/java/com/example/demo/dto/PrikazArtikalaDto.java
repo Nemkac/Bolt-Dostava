@@ -15,7 +15,6 @@ public class PrikazArtikalaDto {
         this.nazivRestorana = korpa.getRestoran().getNaziv();
         this.kolicina = korpa.getKolicina();
         this.cena = korpa.getCenaArtikla();
-        this.nazivArtikla = korpa.getRestoran().getNaziv();
     }
 
     public String getNazivArtikla() {

@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,11 +11,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@DiscriminatorValue("Kupac")
 public class Kupac extends Korisnik implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     //Jedan kupac moze da ima vise porudzbina
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Porudzbina> svePorudzbine = new HashSet<>();
@@ -21,6 +25,7 @@ public class Kupac extends Korisnik implements Serializable {
     @Column
     private int brBodova;
 
+    @JsonIgnore
     //Jedan kupac moze biti u trenutku samo jedan tip(zlatni/srebrni/bronzani)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private TipKupca tip;
@@ -34,6 +39,13 @@ public class Kupac extends Korisnik implements Serializable {
         super(korisnickoIme, lozinka, ime, prezime, pol, datumRodjenja);
         this.brBodova = brBodova;
         this.tip = tip;
+        super.setUloga(Uloga.KUPAC);
+    }
+
+    public Kupac(String korisnickoIme, String lozinka, String ime, String prezime, Pol pol, Date datum) {
+        super(korisnickoIme, lozinka, ime, prezime, pol, datum);
+        this.brBodova = 0;
+        this.tip = new TipKupca();
         super.setUloga(Uloga.KUPAC);
     }
 
