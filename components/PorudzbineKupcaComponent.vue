@@ -6,7 +6,7 @@
       <thead>
       <tr>
         <th>Restoran</th>
-        <th>Dostavljac</th>
+<!--        <th>Dostavljac</th>-->
         <th>Status</th>
         <th>Vreme porudzbine</th>
       </tr>
@@ -14,7 +14,7 @@
       <tbody>
       <tr v-for="porudzbina in porudzbine" v-bind:key="porudzbina.id">
         <td>{{porudzbina.nazivRestorana}}</td>
-        <td>{{porudzbina.dostavljac.ime}}</td>
+<!--        <td>{{porudzbina.dostavljac.ime}}</td>-->
         <td>{{porudzbina.status}}</td>
         <td>{{porudzbina.vremePorudzbine}}</td>
       </tr>
