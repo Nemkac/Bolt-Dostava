@@ -1,5 +1,3 @@
-import axios from "axios";
-Vue.use(Vuelidate);
 <template>
   <head>
     <meta charset="UTF-8">
@@ -27,75 +25,61 @@ Vue.use(Vuelidate);
   </header>
   </body>
 
-  <!--POCETAK MAIN SEKCIJE-->
-  <section>
-  <div class="container-big">
-    <br>
-    <h3>Pretrazi restorane</h3>
 
-    <div class="Pretrage">
-      <input v-model="naziv"  placeholder="Unesite naziv"/>
-      <button v-on:click="this.pretraziPoNazivu()" className="btn btn-primary">Pretrazi po nazivu</button>
-      <br>
-      <input v-model="tip"  placeholder="Unesite tip"/>
-      <button v-on:click="this.pretraziPoTipu()" className="btn btn-primary">Pretrazi po tipu</button>
-      <br>
-      <input v-model="adresa"  placeholder="Unesite adresu"/>
-      <button v-on:click="this.pretraziPoAdresi()" className="btn btn-primary">Pretrazi po adresi</button>
-    </div>
+  <div class="container-big">
+    <h3>Artikli restorana</h3>
 
     <div class="container" align="center">
       <table class="table">
         <thead>
         <tr>
-          <th>naziv</th>
-          <th>tip</th>
-          <th>adresa</th>
-          <th>radi</th>
-
+          <th>Naziv artikla</th>
+          <th>ID artikla</th>
+          <th>Kolicina</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="restoran in restorani" v-bind:key="restoran.naziv">
-          <td>{{restoran.naziv}}</td>
-          <td>{{restoran.tip}}</td>
-          <td>{{restoran.lokacija.adresa}}</td>
-          <td>{{restoran.radi}}</td>
+        <tr v-for="artikal in artikli" v-bind:key="artikal.id">
+          <td>{{artikal.naziv}}</td>
+          <td>{{artikal.id}}</td>
+          <input type="number" v-model="artikal.kolicina" />
           <td>
-            <button v-on:click="this.prikazRestorana(restoran.id)" className="btn btn-primary" class="btn"> Prikazi restoran </button>
-            <!--            <button class="btn btn-success" v-on:click="prikazRestorana(restoran.id)">-->
-
+            <button v-on:click="this.dodajUKorpu(artikal.naziv, artikal.kolicina)" className="btn btn-primary" class="btn"> Dodaj u korpu </button>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
   </div>
-  </section>
-  <!--KRAJ MAIN SEKCIJE-->
+  <br>
+  <br>
+  <button v-on:click="this.idiUKorpu()" className="btn btn-primary" class="korpabtn"> Idi u korpu </button>
+
 
 </template>
 
 <script>
 import RestoranService from "@/service/RestoranService";
-import Axios from 'axios';
-import axios from "axios";
+import Axios from "axios";
+// import axios from "axios";
 export default {
-  name: "RestoraniComponent",
+  name: "RestoranComponent",
   data() {
     return {
-      restorani: [],
+      artikli: [],
       naziv: undefined,
-      tip: undefined,
-      adresa: undefined,
-      status: undefined
+      id : undefined,
+      selektovani_artikal:{
+        nazivArtikla: "",
+        kolicina: 1
+      }
     };
   },
   methods: {
-    prikaziRestorane() {
-      RestoranService.findAll()
+    prikaziArtikleRestorana() {
+      RestoranService.izlistajArtikle(this.$route.params.id)
           .then(response => {
-            this.restorani = response.data;
+            this.artikli = response.data;
           });
     },
     validateAndSubmit(e) {
@@ -109,53 +93,37 @@ export default {
       if (this.errors.length === 0) {
         var temp={
           "naziv":this.naziv,
-          "adresa":this.adresa,
-          "status":this.status,
-          "tip":this.tip
+          "id":this.id
         }
-        this.name = ""
-        this.adress = ""
-        this.description = ""
-        Axios.post("http://localhost:8080/api/list_restorana", temp)
-        this.prikaziRestorane();
+        Axios.get("http://localhost:8080/api/pregledArtikalaRestorana" + this.$route.params.id, temp)
+        this.prikaziArtikleRestorana();
       }
     },
-    pretraziPoAdresi() {
-      ///api/restoran/pretraga/poImenu/
-      axios.get(`http://localhost:8080/api/restoran/pretraga/poLokaciji/` + this.adresa)
-          .then(response => {
-            this.restorani = response.data;
-          });
+    dodajUKorpu(naziv, kolicina){
+      // /api/restoran/{idRestorana}/korpa/dodajUKorpu/{korisnickoIme}
+      console.log(naziv)
+      console.log(kolicina)
+      var dukdto={
+        "nazivArtikla" : naziv,
+        "kolicina" : kolicina
+      }
+      let korisnickoIme = sessionStorage.getItem('korisnickoIme');
+      Axios.post("http://localhost:8080/api/restoran/"+ this.$route.params.id+ "/korpa/dodajUKorpu/"+ korisnickoIme , dukdto)
     },
-    pretraziPoNazivu() {
-      ///api/restoran/pretraga/poImenu/
-      axios.get(`http://localhost:8080/api/restoran/pretraga/poImenu/` + this.naziv)
-          .then(response => {
-            this.restorani = response.data;
-          });
-    },
-    pretraziPoTipu() {
-      axios.get(`http://localhost:8080/api/restoran/pretraga/poTipu/` + this.tip)
-          .then(response => {
-            this.restorani = response.data;
-          });
-    },
-    prikazRestorana(id){
-      this.$router.push("/restoran/"+id);
+    idiUKorpu(){
+      this.$router.push("/korpa");
     }
   },
   created() {
     console.log('kreirano')
-    this.prikaziRestorane();
+    console.log(this.$route.params.id)
+    this.prikaziArtikleRestorana();
   },
 };
 </script>
-
-<style scoped>
-table, th, td {
-  border: 2px solid;
 }
 
+<style scoped>
 *{
   font-family: 'Poppins', sans-serif;
   margin: 0; padding: 0;
@@ -221,58 +189,24 @@ header .korpa a:hover{
 }
 
 .container-big{
-  padding: 5rem 6rem;
-  height: 100%;
+  padding-top: 7rem;
 }
 
-.container-big .Pretrage{
-  width: 100%;
-  display: block;
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 1.2rem;
-  padding: 10px 15px 10px 10px;
-}
-
-.container-big .Pretrage button{
-  box-shadow: none;
-  width: 15%;
-  height: 20px;
-  color: #fff;
-  border-radius: 10px;
-  box-shadow: 3px 3px 3px #b1b1b1,
-  -3px -3px 3px #fff;
-  letter-spacing: 1.3px;
-  background-color: #002d69;
-  color: #ecf0f3;
-  margin-left: 12px;
-}
-
-.container-big .Pretrage button:hover{
-  background-color: #01072a;
-  cursor: pointer;
-}
-
-.container-big .Pretrage input{
-  border: none;
-  padding-left: 10px;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
-  width: 20%;
-}
-
-.container .table{
+.container table{
   margin-top: 2rem;
-  width: 70%;
+  width: 50%;
   height: 40%;
-  border: none;
+  background-color: #ecf0f3;
 }
 
 .container .table tr{
-  height: 3rem;
+  height: 2rem;
   text-align: center;
+}
+
+.container .table tr{
+  border-style: solid;
+  border-width: 2px;
 }
 
 .container .table td .btn{
@@ -286,5 +220,29 @@ header .korpa a:hover{
   background-color: #01072a;
   cursor: pointer;
 }
+.container-big .container .table td{
+  border: #01072a;
+}
 
+.container .table input{
+  border: none;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #fff;
+  width: 20%;
+}
+
+.korpabtn{
+  width: 10%;
+  height: 22px;
+  background-color: #002d69;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.korpabtn:hover{
+  background-color: #01072a;
+  cursor: pointer;
+}
 </style>

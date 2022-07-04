@@ -1,6 +1,5 @@
 <template>
-  <html>
-  <html>
+
   <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,8 +8,8 @@
     <link rel = "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.3/css/all.min.css">
     <title>Document</title>
   </head>
-  <body>
   <!--Pocetak headera-->
+  <body>
   <header>
     <a href="#" class="logo"><router-link to = "/pocetna"><img src="../assets/LogotipLanding.png" width="170" height="100"></router-link></a>
 
@@ -18,70 +17,71 @@
       <a href=""><router-link to = "/pocetna">Početna</router-link></a>
       <a href=""><router-link to = "/prikaz_restorana">Restorani</router-link></a>
       <a href=""><router-link to = "/profilKupca">Profil</router-link></a>
-      <a href="" v-on:click="this.odjaviSe()"><router-link to = "/">Logout</router-link></a>
     </nav>
 
     <div class = "korpa">
       <a href="#"><router-link to = "/prikaz_restorana"><fa icon="search"/></router-link></a>
       <a href="#"><router-link to="/korpa"><fa icon="cart-shopping"/></router-link></a>
     </div>
-
   </header>
-  <!--Kraj headerea-->
-
-  <!--Main sekcija-->
-  <div class="landing">
-    <div class="text">
-      <h1>Gladan si?</h1>
-      <h2>Bez brige!</h2>
-      <p>Bolt dostava napravljena je kako bi mogao, bilo kada,<br> bilo gde, da uživas u svojoj omiljenoj hrani.<br>
-        Poruči hranu iz omiljenog restorana i ona će<br> u najkraćem mogućem roku biti na tvojoj adresi.</p>
-      <router-link to = "/prikaz_restorana"><button type="button" class="button">
-        <span class="button-text">Poruci Odmah</span>
-      </button></router-link>
-    </div>
-  </div>
-  <!--Kraj main sekcije-->
-
   </body>
-  </html>
-  </html>
-</template>
 
+
+  <div class="container" align="center">
+    <h1>Vase Porudzbine</h1>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Restoran</th>
+        <th>Dostavljac</th>
+        <th>Status</th>
+        <th>Vreme porudzbine</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="porudzbina in porudzbine" v-bind:key="porudzbina.id">
+        <td>{{porudzbina.nazivRestorana}}</td>
+        <td>{{porudzbina.dostavljac.ime}}</td>
+        <td>{{porudzbina.status}}</td>
+        <td>{{porudzbina.vremePorudzbine}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
 
 <script>
 import axios from "axios";
+
 export default {
-  name: 'PocetnaPage',
-  data: function() {
-  },
-  methods:{
-    odjaviSe: function() {
-      console.log(this.korisnik);
-      axios
-        .post("http://localhost:8080/api/logout")
-        .then(res => {
-          console.log(res)
-          alert("Uspesno ste se izlogovali")
-          this.$router.push("/")
-        })
-        .catch(error => {
-          console.log(error.response);
-          alert("Greska")
-        });
+  name: "PorudzbineKupcaComponent",
+  data() {
+    return {
+      porudzbine: [],
     }
-  }
+  },
+  methods: {
+    prikaziPorudzbine() {
+      let korisnickoIme = sessionStorage.getItem('korisnickoIme');
+      axios
+          .get("http://localhost:8080/api/kupac/prikazPorudzbina/" + korisnickoIme)
+          .then(res => {
+            console.log(res);
+            this.porudzbine = res.data;
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+    }
+  },
+  created() {
+    this.prikaziPorudzbine();
+  },
 };
+
 </script>
 
 <style scoped>
-:root{
-  --SvetloZuta: #ffd74a;
-  --TamnoZuta: #fdbf00;
-  --TamnoPlava: #01072a;
-  --SvetloPlava: #003072;
-}
-
 *{
   font-family: 'Poppins', sans-serif;
   margin: 0; padding: 0;
@@ -90,10 +90,7 @@ export default {
   text-decoration: none;
   outline: none; border: none;
   transition: all .07s linear;
-}
-body{
-  background: #ecf0f3;
-  text-align: left;
+
 }
 
 html{
@@ -112,6 +109,7 @@ header{
   align-items: center;
   justify-content: space-between;
   z-index: 1000;
+  box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff;
 }
 
 header .logo{
@@ -148,43 +146,42 @@ header .korpa a:hover{
   color: #01072a;
 }
 
-.landing{
-  background-image: url("../assets/landingBG4.png");
-  background-size: cover;
-  padding: 10.16rem 2.5rem;
+.container{
+  padding-top: 6rem;
 }
 
-.landing .text h1{
-  font-size: 3.5rem;
-  text-align: left;
-  color: #01072a;
+.container table{
+  margin-top: 2rem;
+  width: 40%;
+  height: 40%;
+  background-color: #ecf0f3;
 }
 
-.landing .text h2{
-  font-size: 4rem;
-  color: #01072a;
-  text-align: left;
+.container .table tr{
+  height: 2rem;
+  text-align: center;
 }
 
-.landing .text p{
-  font-size: 1rem;
+.container .table tr{
+  border-style: solid;
+  border-width: 2px;
 }
 
-.landing .text .button{
-  margin-top: 1rem;
-  padding: .5rem 2.5rem;
-  background: #002d69;
+.container .btn{
+  width: 10%;
+  height: 22px;
+  background-color: #002d69;
+  border-radius: 20px;
   color: #fff;
-  display: inline-flex;
-  border: none;
-  border-radius: 5px;
-  overflow: hidden;
+  margin-top: 10px;
 }
 
-.landing .text .button:hover{
-  background: #01072a;
+.container .btn:hover{
+  background-color: #01072a;
   cursor: pointer;
-
+}
+.container-big .container .table td{
+  border: #01072a;
 }
 
 </style>

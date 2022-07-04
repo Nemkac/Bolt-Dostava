@@ -65,8 +65,8 @@ export default {
           .post("http://localhost:8080/api/registracija", this.korisnik)
           .then(res => {
             console.log(res);
-            alert("Uspesno");
-            this.$router.push("/profil");
+            alert("Uspesno")
+            this.$router.push("/login");
           })
           .catch(error => {
             console.log(error.response);

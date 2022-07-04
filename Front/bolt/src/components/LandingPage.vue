@@ -15,16 +15,15 @@
       <a href="#" class="logo"><router-link to = "/"><img src="../assets/LogotipLanding.png" width="170" height="100"></router-link></a>
 
       <nav class="navbar">
-        <a href="">Početna</a>
-        <a href="">Restorani</a>
-        <a href="">Kontakt</a>
-        <a href=""><router-link to = "/profil">Profil</router-link></a>
+        <a href=""><router-link to = "/">Početna</router-link></a>
+        <a href=""><router-link to = "/prikaz_restorana">Restorani</router-link></a>
+        <a href=""><router-link to = "/profilKupca">Profil</router-link></a>
         <a href=""><router-link to = "/login">Login</router-link></a>
       </nav>
 
       <div class = "korpa">
-        <a href="#"><router-link to = "/pretraga_restorana"><fa icon="search"/></router-link></a>
-        <a href="#"><fa icon="cart-shopping"/></a>
+        <a href="#"><router-link to = "/prikaz_restorana"><fa icon="search"/></router-link></a>
+        <a href="#"><router-link to="/korpa"><fa icon="cart-shopping"/></router-link></a>
       </div>
 
     </header>
